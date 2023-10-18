@@ -18,7 +18,7 @@ resource "aws_subnet" "pratice_subnet_public01" {
 resource "aws_subnet" "pratice_subnet_public02" {
   vpc_id            = aws_vpc.pratice_vpc.id
   cidr_block        = "172.21.1.0/24"
-  availability_zone = "us-east-1a"
+  availability_zone = "us-east-1b"
   tags = {
     Name = "pratice_public_subnet02"
   }
@@ -26,7 +26,7 @@ resource "aws_subnet" "pratice_subnet_public02" {
 resource "aws_subnet" "pratice_subnet_private01" {
   vpc_id            = aws_vpc.pratice_vpc.id
   cidr_block        = "172.21.2.0/24"
-  availability_zone = "us-east-1b"
+  availability_zone = "us-east-1a"
   tags = {
     Name = "pratice_private_subnet01"
   }
@@ -34,7 +34,7 @@ resource "aws_subnet" "pratice_subnet_private01" {
 resource "aws_subnet" "pratice_subnet_private02" {
   vpc_id            = aws_vpc.pratice_vpc.id
   cidr_block        = "172.21.3.0/24"
-  availability_zone = "us-east-1c"
+  availability_zone = "us-east-1b"
   tags = {
     Name = "pratice_private_subnet02"
   }
@@ -50,7 +50,7 @@ resource "aws_internet_gateway" "pratice_igw" {
 
 # Elastic IP
 resource "aws_eip" "nat_gateway" {
-
+  #o ip 
 }
 
 # NAT Gateway
