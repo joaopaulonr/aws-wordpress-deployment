@@ -32,11 +32,11 @@ resource "aws_security_group" "pratice_security_group_public" {
   description = "Allow traffic"
   vpc_id      = aws_vpc.pratice_vpc.id
   ingress {
-    description = "Regra SSH"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["172.21.0.0/24"]
+    description     = "Regra SSH"
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
+    security_groups = [aws_security_group.pratice_security_group_bastion.id]
   }
   ingress {
     description = "Regra ICMP"
@@ -68,25 +68,25 @@ resource "aws_security_group" "pratice_security_group_private" {
   description = "Allow traffic"
   vpc_id      = aws_vpc.pratice_vpc.id
   ingress {
-    description = "Regra SSH"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["172.21.0.0/24"]
+    description     = "Regra SSH"
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
+    security_groups = [aws_security_group.pratice_security_group_bastion.id]
   }
   ingress {
-    description = "Regra ICMP"
-    from_port   = -1
-    to_port     = -1
-    protocol    = "icmp"
-    cidr_blocks = ["172.21.0.0/16"]
+    description     = "Regra ICMP"
+    from_port       = -1
+    to_port         = -1
+    protocol        = "icmp"
+    security_groups = [aws_security_group.pratice_security_group_public.id]
   }
-    ingress {
-    description = "Regra HTTP"
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+  ingress {
+    description     = "Regra HTTP"
+    from_port       = 80
+    to_port         = 80
+    protocol        = "tcp"
+    security_groups = [aws_security_group.pratice_security_group_public.id]
   }
   egress {
     from_port   = 0
