@@ -39,12 +39,12 @@ resource "aws_launch_template" "pratice_template" {
 
 # Auto scaling Group
 resource "aws_autoscaling_group" "pratice_asg" {
-  min_size = 2
-  max_size = 8
+  min_size         = 2
+  max_size         = 8
   desired_capacity = 2
   launch_template {
     id = aws_launch_template.pratice_template.id
   }
-  vpc_zone_identifier = [ aws_subnet.pratice_subnet_private01.id,aws_subnet.pratice_subnet_private02.id ]
+  vpc_zone_identifier       = [aws_subnet.pratice_subnet_private01.id, aws_subnet.pratice_subnet_private02.id]
   health_check_grace_period = 300
 }
