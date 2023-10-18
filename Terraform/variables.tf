@@ -22,3 +22,8 @@ variable "volume_size" {
   type    = number
   default = 8
 }
+
+variable "key_name" {
+  type    = string
+  default = "vockey"
+}
