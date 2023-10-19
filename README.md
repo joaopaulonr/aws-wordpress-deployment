@@ -13,5 +13,5 @@ A segunda etapa de um ciclo de sprints preparatório para DevSecOps envolve a ap
 ### Requisitos no Linux:
 
 ## Cenário de implementação.
-<img src="Assets/Cenário.svg" alt="cenário de implementação na nuvem aws.">
+<img align="center" src="Assets/Cenário.svg" alt="cenário de implementação na nuvem aws.">
 
