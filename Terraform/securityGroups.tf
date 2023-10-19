@@ -98,3 +98,25 @@ resource "aws_security_group" "pratice_security_group_private" {
     Name = "pratice_group_private"
   }
 }
+
+resource "aws_security_group" "pratice_security_group_rds" {
+  name        = "allow_Protocols_rds"
+  description = "Allow traffic"
+  vpc_id      = aws_vpc.pratice_vpc.id
+  ingress {
+    description     = "Regra SSH"
+    from_port       = 3306
+    to_port         = 3306
+    protocol        = "tcp"
+    security_groups = [aws_security_group.pratice_security_group_private.id]
+  }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  tags = {
+    Name = "pratice_group_rds"
+  }
+}
