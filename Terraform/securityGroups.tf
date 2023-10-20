@@ -1,3 +1,4 @@
+#
 resource "aws_security_group" "pratice_security_group_bastion" {
   name        = "allow_Protocols_bastion"
   description = "Allow traffic"
@@ -118,5 +119,27 @@ resource "aws_security_group" "pratice_security_group_rds" {
   }
   tags = {
     Name = "pratice_group_rds"
+  }
+}
+
+resource "aws_security_group" "pratice_security_group_efs" {
+  name        = "allow_Protocols_efs"
+  description = "Allow traffic"
+  vpc_id      = aws_vpc.pratice_vpc.id
+  ingress {
+    description     = "Regra EFS"
+    from_port       = 2049
+    to_port         = 2049
+    protocol        = "tcp"
+    security_groups = [aws_security_group.pratice_security_group_private.id]
+  }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  tags = {
+    Name = "pratice_group_efs"
   }
 }
