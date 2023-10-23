@@ -16,6 +16,8 @@ resource "aws_launch_template" "pratice_template" {
   key_name               = var.key_name
   user_data = base64encode(<<-EOF
   #!/bin/bash
+  
+  # Variáveis de ambiente retiradas do terraform
   RDS_ENDPOINT="${data.terraform_remote_state.local_state.outputs.rds_endpoint}"
   RDS_USER="${data.terraform_remote_state.local_state.outputs.rds_user}"
   RDS_PASSWD="${data.terraform_remote_state.local_state.outputs.rds_passwd}"
@@ -25,21 +27,24 @@ resource "aws_launch_template" "pratice_template" {
   # Ajustes no sistema
   yum update -y
   mkdir /srv/solution
+  mkdir /mnt/efs
   mkdir /mnt/efs/wordpress
   timedatectl set-timezone America/Fortaleza
 
   # Instalação do NFS
-  sudo yum install amazon-efs-utils -y
+  yum install amazon-efs-utils -y
+  systemctl enable nfs-utils.service
+  systemctl start nfs-utils.service
 
   # Instalação Docker e compose
   yum install docker -y
   systemctl enable docker.service
   systemctl start docker.service
-  sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m) -o /usr/bin/docker-compose && sudo chmod 755 /usr/bin/docker-compose
+  curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m) -o /usr/bin/docker-compose && sudo chmod 755 /usr/bin/docker-compose
   
   # Configuração EFS
-  mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport $DNS_NAME:/ efs
-  chown ec2-user:ec2-user /mnt/efs
+  echo "$DNS_NAME:/ /mnt/efs/wordpress nfs defaults 0 0" >> /etc/fstab
+  mount -a
 
   cat <<EOF2 > /srv/solution/docker-compose.yml
   version: '3.3'
@@ -56,7 +61,9 @@ resource "aws_launch_template" "pratice_template" {
         WORDPRESS_DB_USER: $RDS_USER
         WORDPRESS_DB_PASSWORD: $RDS_PASSWD
         WORDPRESS_DB_NAME: $RDS_BDNAME
+        WORDPRESS_TABLE_CONFIG: wp_
   EOF2
+
   # Execução do compose
   docker-compose -f /srv/solution/docker-compose.yml up -d
   EOF  
@@ -94,10 +101,11 @@ resource "aws_launch_template" "pratice_template" {
 
 # Auto scaling Group
 resource "aws_autoscaling_group" "pratice_asg" {
-  min_size                  = 2
-  max_size                  = 8
-  desired_capacity          = 2
-  health_check_grace_period = 300
+  name = "pratice-asg"
+  min_size                  = 3
+  max_size                  = 9
+  desired_capacity          = 3
+  health_check_grace_period = 150
   health_check_type         = "EC2"
 
   launch_template {
