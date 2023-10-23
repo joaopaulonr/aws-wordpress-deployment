@@ -3,6 +3,9 @@ resource "aws_efs_file_system" "pratice_efs" {
   creation_token   = "pratice-efs"
   performance_mode = "generalPurpose"
   encrypted        = true
+  tags = {
+    Name = "pratice-efs"
+  }
 }
 
 #
