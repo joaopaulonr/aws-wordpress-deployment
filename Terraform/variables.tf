@@ -26,5 +26,5 @@ variable "volume_size" {
 
 variable "key_name" {
   type    = string
-  default = "vockey"
+  default = "docker"
 }
