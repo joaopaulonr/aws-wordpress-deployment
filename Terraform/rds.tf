@@ -8,10 +8,10 @@ resource "aws_db_subnet_group" "pratice_db_subnet_group" {
 resource "aws_db_instance" "pratice_db" {
   db_name                = "pratice"
   allocated_storage      = 20
-  storage_type           = "gp2"
+  storage_type           = "gp3"
   engine                 = "mysql"
   engine_version         = "8.0.33"
-  instance_class         = "db.t3.small"
+  instance_class         = "db.t3.micro"
   username               = "admin"
   password               = "passwd123456789"
   port                   = "3306"
