@@ -1,7 +1,7 @@
 #
 resource "aws_db_subnet_group" "pratice_db_subnet_group" {
   name       = "pratice_db_subnet_group"
-  subnet_ids = [aws_subnet.pratice_subnet_private01.id, aws_subnet.pratice_subnet_private02.id, aws_subnet.pratice_subnet_private03.id]
+  subnet_ids = [aws_subnet.pratice_subnet_private01.id, aws_subnet.pratice_subnet_private02.id]
 }
 
 #

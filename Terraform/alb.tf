@@ -4,7 +4,7 @@ resource "aws_lb" "pratice_alb" {
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.pratice_security_group_public.id]
-  subnets            = [aws_subnet.pratice_subnet_public01.id, aws_subnet.pratice_subnet_public02.id, aws_subnet.pratice_subnet_public03.id]
+  subnets            = [aws_subnet.pratice_subnet_public01.id, aws_subnet.pratice_subnet_public02.id]
 }
 
 # Target Group
