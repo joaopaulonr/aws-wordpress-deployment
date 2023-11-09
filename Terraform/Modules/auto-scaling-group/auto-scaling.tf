@@ -10,5 +10,4 @@ resource "aws_autoscaling_group" "my_asg" {
     id = aws_launch_template.my_template.id
   }
   vpc_zone_identifier = [var.my_subnet_private01,var.my_subnet_private02]
-  depends_on = [  ]
 }
