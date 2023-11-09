@@ -1,8 +1,7 @@
-#
 resource "aws_security_group" "pratice_security_group_bastion" {
   name        = "allow_Protocols_bastion"
   description = "Allow traffic"
-  vpc_id      = aws_vpc.pratice_vpc.id
+  vpc_id      = var.vpc_id
   ingress {
     description = "Regra SSH"
     from_port   = 22
@@ -31,7 +30,7 @@ resource "aws_security_group" "pratice_security_group_bastion" {
 resource "aws_security_group" "pratice_security_group_public" {
   name        = "allow_Protocols"
   description = "Allow traffic"
-  vpc_id      = aws_vpc.pratice_vpc.id
+  vpc_id      = var.vpc_id
   ingress {
     description     = "Regra SSH"
     from_port       = 22
@@ -67,7 +66,7 @@ resource "aws_security_group" "pratice_security_group_public" {
 resource "aws_security_group" "pratice_security_group_private" {
   name        = "allow_Protocols_Private"
   description = "Allow traffic"
-  vpc_id      = aws_vpc.pratice_vpc.id
+  vpc_id      = var.vpc_id
   ingress {
     description     = "Regra SSH"
     from_port       = 22
@@ -103,7 +102,7 @@ resource "aws_security_group" "pratice_security_group_private" {
 resource "aws_security_group" "pratice_security_group_rds" {
   name        = "allow_Protocols_rds"
   description = "Allow traffic"
-  vpc_id      = aws_vpc.pratice_vpc.id
+  vpc_id      = var.vpc_id
   ingress {
     description     = "Regra SSH"
     from_port       = 3306
@@ -125,7 +124,7 @@ resource "aws_security_group" "pratice_security_group_rds" {
 resource "aws_security_group" "pratice_security_group_efs" {
   name        = "allow_Protocols_efs"
   description = "Allow traffic"
-  vpc_id      = aws_vpc.pratice_vpc.id
+  vpc_id      = var.vpc_id
   ingress {
     description     = "Regra EFS"
     from_port       = 2049

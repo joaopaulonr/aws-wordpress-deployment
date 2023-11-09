@@ -1,18 +1,16 @@
-# State terraform para retirar variáveis de ambiente.
 data "terraform_remote_state" "local_state" {
   backend = "local"
   config = {
-    path = "./terraform.tfstate"
+    path = "/home/joao/Documents/Terraform/Main/terraform.tfstate"
   }
 }
 
-# Model da Instância
-resource "aws_launch_template" "pratice_template" {
-  name_prefix            = "pratice_template"
+resource "aws_launch_template" "my_template" {
+  name_prefix            = "my_template"
   description            = "modelo de instância"
   image_id               = var.ami
   instance_type          = var.instance_type
-  vpc_security_group_ids = [aws_security_group.pratice_security_group_private.id]
+  vpc_security_group_ids = [var.sec_group]
   key_name               = var.key_name
   user_data = base64encode(<<-EOF
   #!/bin/bash
@@ -108,20 +106,4 @@ resource "aws_launch_template" "pratice_template" {
       CostCenter = "C092000004"
     }
   }
-  depends_on = [aws_db_instance.pratice_db]
-}
-
-# Auto scaling Group
-resource "aws_autoscaling_group" "pratice_asg" {
-  name = "pratice-asg"
-  min_size                  = 2
-  max_size                  = 6
-  desired_capacity          = 2
-  health_check_grace_period = 150
-  health_check_type         = "EC2"
-
-  launch_template {
-    id = aws_launch_template.pratice_template.id
-  }
-  vpc_zone_identifier = [aws_subnet.pratice_subnet_private01.id, aws_subnet.pratice_subnet_private02.id]
 }
