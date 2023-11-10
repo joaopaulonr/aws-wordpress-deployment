@@ -10,30 +10,12 @@ module "rds" {
   depends_on = [ module.network ]
 }
 
-output "rds_endpoint" {
-  value = module.rds.rds_endpoint
-}
-output "rds_user" {
-  value = module.rds.rds_user
-}
-output "rds_passwd" {
-  value = module.rds.rds_passwd
-  sensitive = true
-}
-output "rds_name" {
-  value = module.rds.rds_name
-}
-
 module "efs" {
   source              = "../Modules/efs"
   security_group_efs  = module.security-groups.security_efs
   my_subnet_private01 = module.network.subnet-private-01
   my_subnet_private02 = module.network.subnet-private-02
   depends_on = [ module.rds ]
-}
-
-output "dns_name" {
-  value = module.efs.dns_name
 }
 
 module "security-groups" {
